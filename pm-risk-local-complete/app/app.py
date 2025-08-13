@@ -13,6 +13,9 @@ def load_model():
     return joblib.load(path)
 
 model = load_model()
+from config import load_config, threshold
+cfg = load_config(); thr = threshold(cfg)
+st.caption(f'Decision threshold: {thr:.2f}')
 
 st.sidebar.header("Single Prediction")
 with st.sidebar.form("single_pred"):
