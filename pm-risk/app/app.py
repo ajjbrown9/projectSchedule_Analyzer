@@ -5,6 +5,15 @@
 #   - SAGEMAKER mode (optional): set env var SAGEMAKER_ENDPOINT_NAME and use a different UI file if desired.
 #   This app shows the configured decision threshold from /src/config.json for consistency with the endpoint.
 
+# --- ensure project root is on sys.path so "import src.*" works ---
+import sys, os
+ROOT = os.path.dirname(os.path.dirname(__file__))  # project root = parent of app/
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+# -----------------------------------------------------------------
+
+from src.config import load_config, threshold
+
 # app/app.py - full Streamlit app
 import streamlit as st, joblib, pandas as pd, numpy as np, os
 
@@ -20,7 +29,7 @@ def load_model():
     return joblib.load(path)
 
 model = load_model()
-from config import load_config, threshold
+from src.config import load_config, threshold
 cfg = load_config(); thr = threshold(cfg)
 st.caption(f'Decision threshold: {thr:.2f}')
 
